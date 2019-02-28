@@ -3,10 +3,10 @@ import h5py
 
 OUT_DIR = "./datasets/"
 
-NAME = "lfsr_poly_11-9"
+NAME = "lfsr_outfunc_poly_18-11"
 
 random_raw_path = './binary_sequences/r_960000.bin'
-pseudorandom_raw_path = "./binary_sequences/pr_lfsr_960000_poly_11-9_20190228-162006.bin"
+pseudorandom_raw_path = "./binary_sequences/pr_lfsr_outfunc_960000_poly_18-11_20190228-165414.bin"
 
 # defines the length of the training data (and thus the input size of the ANN)
 input_size = 22

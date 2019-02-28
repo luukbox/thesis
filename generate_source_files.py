@@ -8,19 +8,24 @@ from bitstring import BitArray
 from bitarray import bitarray
 import numpy as np
 import math
-from pyfsr import LFSR
+from pyfsr import LFSR, FSRFunction
+import matplotlib.pyplot as plt
 
 DIR = "./binary_sequences/"
 
 
-def generate_pr_sequence(num_bits, poly):
+def generate_pr_sequence():
+    num_bits = 50000
+    poly = [18, 11]
+    outfunc = FSRFunction([17, 14, 9, 6, 0, "+", "+", "+", "+"])
     sequence_len = num_bits
     poly_str = '-'.join(str(x) for x in poly)
-    out_path = f'{DIR}pr_lfsr_{sequence_len}_poly_{poly_str}_{datetime.now().strftime("%Y%m%d-%H%M%S")}.bin'
+    out_path = f'{DIR}pr_lfsr_outfunc_{sequence_len}_poly_{poly_str}_{datetime.now().strftime("%Y%m%d-%H%M%S")}.bin'
     print("OUT PATH: ", out_path)
-    r = LFSR(poly=poly, initstate='random', initcycles=2**9)
+    r = LFSR(poly=poly, initstate='random', outfunc=outfunc, initcycles=2**9)
     sequence = ''.join(str(s) for s in r.sequence(sequence_len))
     save_sequence_as_binary(sequence, out_path)
+    return sequence
 
 
 # fetches the max possible amount from random.org
@@ -66,5 +71,28 @@ def save_sequence_as_binary(sequence, path):
         a.tofile(f)
 
 
-# generate_pr_sequence(num_bits=960000, poly=[11, 9])
+def make_autopct(values):
+    def my_autopct(pct):
+        total = sum(values)
+        val = int(round(pct*total/100.0))
+        return '{p:.2f}%  ({v:d})'.format(p=pct, v=val)
+    return my_autopct
+
+
+def plot_sequence_distribution(sequence):
+    a = np.array(bitarray(sequence))
+    unique, counts = np.unique(a, return_counts=True)
+    labels = []
+    for i in range(0, len(unique)):
+        labels.append(f'{unique[i] * 1}\'s')
+
+    plt.pie(counts, labels=labels, autopct=make_autopct(counts),
+            shadow=True, startangle=140)
+    plt.axis('equal')
+    plt.show()
+
+
 # generate_r_sequence()
+sequence = generate_pr_sequence()
+
+plot_sequence_distribution(sequence)
