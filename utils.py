@@ -3,6 +3,8 @@ from random import shuffle
 import numpy as np
 import h5py
 from bitarray import bitarray
+import os
+import errno
 
 CATEGORIES = ['Pseudo-Random', 'Random']
 
@@ -58,6 +60,13 @@ def generate_dataset(random_raw_path, pseudorandom_raw_path, out_path, num_bits,
 
     X = np.array(X)
     y = np.array(y)
+
+    if not os.path.exists(os.path.dirname(out_path)):
+        try:
+            os.makedirs(os.path.dirname(out_path))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
 
     dset = h5py.File(name=out_path, mode='w')
     print('Saving X (Data)...')

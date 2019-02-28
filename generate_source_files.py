@@ -1,6 +1,8 @@
 from tqdm import tqdm
 import urllib.request
 import re
+import os
+import errno
 from datetime import datetime
 from bitstring import BitArray
 from bitarray import bitarray
@@ -54,10 +56,15 @@ def generate_r_sequence():
 
 def save_sequence_as_binary(sequence, path):
     a = bitarray(sequence)
+    if not os.path.exists(os.path.dirname(path)):
+        try:
+            os.makedirs(os.path.dirname(path))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
     with open(path, 'wb') as f:
         a.tofile(f)
 
 
-generate_pr_sequence(num_bits=960000, poly=[11, 9])
-
+# generate_pr_sequence(num_bits=960000, poly=[11, 9])
 # generate_r_sequence()
