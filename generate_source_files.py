@@ -15,7 +15,7 @@ DIR = "./binary_sequences/"
 
 
 def generate_pr_sequence():
-    num_bits = 50000
+    num_bits = 1600000
     poly = [18, 11]
     outfunc = FSRFunction([17, 14, 9, 6, 0, "+", "+", "+", "+"])
     sequence_len = num_bits
@@ -93,6 +93,6 @@ def plot_sequence_distribution(sequence):
 
 
 # generate_r_sequence()
-sequence = generate_pr_sequence()
+generate_pr_sequence()
 
-plot_sequence_distribution(sequence)
+# plot_sequence_distribution(sequence)

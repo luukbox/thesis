@@ -29,7 +29,7 @@ results = model.fit(
     x=x_train,
     y=y_train,
     validation_data=validation_data,
-    epochs=3,
+    epochs=10,
     batch_size=50
     #   callbacks=[tensorboard],
 )
