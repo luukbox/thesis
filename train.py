@@ -6,7 +6,7 @@ from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
 import os
 
-DATASET_PATH = "./datasets/lfsr_outfunc_poly_18-11.h5"
+DATASET_PATH = "./datasets/lfsr_(18-11)_ext_out(17-14-9-6-0-xor-xor-xor-xor).h5"
 
 # load dataset
 train_data, validation_data = load_dataset(DATASET_PATH, 0.25)

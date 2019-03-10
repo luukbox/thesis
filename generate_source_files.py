@@ -19,11 +19,11 @@ def generate_pr_sequence():
     poly = [18, 11]
     outfunc = FSRFunction([17, 14, 9, 6, 0, "+", "+", "+", "+"])
     sequence_len = num_bits
-    poly_str = '-'.join(str(x) for x in poly)
-    out_path = f'{DIR}pr_lfsr_outfunc_{sequence_len}_poly_{poly_str}_{datetime.now().strftime("%Y%m%d-%H%M%S")}.bin'
-    print("OUT PATH: ", out_path)
     r = LFSR(poly=poly, initstate='random', outfunc=outfunc, initcycles=2**9)
     sequence = ''.join(str(s) for s in r.sequence(sequence_len))
+    # {datetime.now().strftime("%Y%m%d-%H%M%S")}
+    out_path = f'{DIR}{r}.bin'
+    print("OUT PATH: ", out_path)
     save_sequence_as_binary(sequence, out_path)
     return sequence
 
