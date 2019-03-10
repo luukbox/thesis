@@ -14,18 +14,15 @@ import matplotlib.pyplot as plt
 DIR = "./binary_sequences/"
 
 
-def generate_pr_sequence():
-    num_bits = 1600000
-    poly = [18, 11]
-    outfunc = FSRFunction([17, 14, 9, 6, 0, "+", "+", "+", "+"])
+def generate_pr_sequence(fsr, num_bits):
+    print(f'generating bin sequence for {fsr} ...')
     sequence_len = num_bits
-    r = LFSR(poly=poly, initstate='random', outfunc=outfunc, initcycles=2**9)
-    sequence = ''.join(str(s) for s in r.sequence(sequence_len))
+    sequence = ''.join(str(s) for s in fsr.sequence(sequence_len))
     # {datetime.now().strftime("%Y%m%d-%H%M%S")}
-    out_path = f'{DIR}{r}.bin'
-    print("OUT PATH: ", out_path)
+    out_path = f'{DIR}{fsr}.bin'
+    # print("OUT PATH: ", out_path)
     save_sequence_as_binary(sequence, out_path)
-    return sequence
+    return out_path
 
 
 # fetches the max possible amount from random.org
@@ -93,6 +90,9 @@ def plot_sequence_distribution(sequence):
 
 
 # generate_r_sequence()
-generate_pr_sequence()
+
+# outfunc = FSRFunction([17, 14, 9, 6, 0, "+", "+", "+", "+"])
+# fsr = LFSR(poly=[18, 11], initstate='random', outfunc=outfunc, initcycles=2**9)
+# generate_pr_sequence(fsr, 1500000)
 
 # plot_sequence_distribution(sequence)

@@ -11,7 +11,7 @@ input_size = 64
 
 # the length of the dataset
 # dataset_len * input_size can't be larger than the sum of the binary sequences length
-dataset_len = 2000000 / input_size
+dataset_len = 3000000 / input_size
 
 generate_dataset(
     random_raw_path=f'./binary_sequences/{random_name}.bin',

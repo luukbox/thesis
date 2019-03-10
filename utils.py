@@ -75,6 +75,7 @@ def generate_dataset(random_raw_path, pseudorandom_raw_path, out_path, num_bits,
     dset['targets'] = y
     dset.close()
     print(f'Done. Saved at {out_path}')
+    return out_path
 
 
 def generate_mixed_dataset(random_raw_path, pseudorandom_raw_paths, out_path, num_bits, dataset_len):

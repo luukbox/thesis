@@ -5,8 +5,12 @@ from datetime import datetime
 from sklearn.metrics import roc_curve, auc
 import matplotlib.pyplot as plt
 import os
+from tensorflow.keras.callbacks import TensorBoard
+from time import time
 
-DATASET_PATH = "./datasets/lfsr_(18-11)_ext_out(17-14-9-6-0-xor-xor-xor-xor).h5"
+DATASET_NAME = "lfsr_(15-14)_ext_out(14)"
+
+DATASET_PATH = f'./datasets/{DATASET_NAME}.h5'
 
 # load dataset
 train_data, validation_data = load_dataset(DATASET_PATH, 0.25)
@@ -15,7 +19,7 @@ train_data, validation_data = load_dataset(DATASET_PATH, 0.25)
 
 # generate network types
 (model, model_name) = ann_models.get_fully_connected_model(
-    input_shape=x_train.shape[1:], data_name=os.path.splitext(os.path.basename(DATASET_PATH))[0])
+    input_shape=x_train.shape[1:], data_name=DATASET_NAME)
 
 # compile the model
 model.compile(
@@ -29,10 +33,17 @@ results = model.fit(
     x=x_train,
     y=y_train,
     validation_data=validation_data,
-    epochs=10,
-    batch_size=50
-    #   callbacks=[tensorboard],
+    epochs=1,
+    batch_size=128,
+    callbacks=[TensorBoard(log_dir=f'logs/{DATASET_NAME}')],
 )
+
+(x_test, y_test) = validation_data
+
+evaluation = model.evaluate(x_test, y_test, 100)
+
+print("LOSS:", evaluation[0])
+print("ACC:", evaluation[1])
 
 # save the model
 # save_model(
