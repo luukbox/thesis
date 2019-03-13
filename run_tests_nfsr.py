@@ -80,16 +80,18 @@ def run_test_round(fsr):
 if __name__ == '__main__':
 
     nfsrs = [
+        # basically lfsr with poly=[15, 14]
+        NLFSR(initstate="random", size=15, infunc=FSRFunction(
+            [14, 13, "+"]), initcycles=2**9),
         NLFSR(initstate="random", size=16, infunc=FSRFunction(
-            [0, 7, 8, 10, 13, "+", "+", "+", "+"]), initcycles=2**9),
+            [0, 7, 8, 10, "+", "+", "+"]), initcycles=2**9),
+        # should result in the same output as above, since it shouldn't matter in wich order we add
         NLFSR(initstate="random", size=16, infunc=FSRFunction(
-            [0, 7, "+", 8, 10, "+", 13, "+", "+"]), initcycles=2**9),
+            [0, 7, "+", 8, 10, "+", "+"]), initcycles=2**9),
         NLFSR(initstate="random", size=20, infunc=FSRFunction(
-            [0, 7, 8, 10, 13, "+", "+", "+", "+"]), initcycles=2**9),
+            [0, 7, 13, 17, "+", "+", "+"]), initcycles=2**9),
         NLFSR(initstate="random", size=20, infunc=FSRFunction(
-            [0, 7, "+", 8, 10, "+", 13, "+", "+"]), initcycles=2**9),
-        NLFSR(initstate="random", size=20, infunc=FSRFunction(
-            [0, 7, "*", 8, 10, "*", 0, "+", "+"]), initcycles=2**9),
+            [7, 13, "*", 9, 17, "*", 0, "+", "+"]), initcycles=2**9),
         # source: http://www5.rz.rub.de:8032/imperia/md/content/wolf/szmidt_asp.pdf p. 22
         NLFSR(initstate="random", size=25, infunc=FSRFunction(
             [0, 8, 9, 10, 11, 19, 20, 21, 23, "+", "+", "+", "+",
