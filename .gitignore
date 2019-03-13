@@ -108,3 +108,4 @@ venv.bak/
 binary_sequences/*.bin
 datasets/*.h5
 tensorboard_logs/
+tensorboard_logs_lfsr_64bit/
