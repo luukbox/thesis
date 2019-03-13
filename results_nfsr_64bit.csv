@@ -1,0 +1,7 @@
+GENERATOR,TEST-LOSS,TEST-ACCURACY,# OUT OF 15 NIST TESTS PASSED,monobit,frequency_within_block,runs,longest_run_ones_in_a_block,binary_matrix_rank,dft,non_overlapping_template_matching,overlapping_template_matching,maurers_universal,linear_complexity,serial,approximate_entropy,cumulative_sums,random_excursion,random_excursion_variant
+nfsr_15_in(14-13-xor),0.0080,0.9974,7,1,1,1,0,0,0,1,0,1,0,0,0,1,0,1
+nfsr_16_in(0-7-8-10-xor-xor-xor),0.1630,0.9540,8,1,0,1,0,0,0,1,0,1,0,1,1,1,0,1
+nfsr_16_in(0-7-xor-8-10-xor-xor),0.1258,0.9705,8,1,0,1,0,0,0,1,0,1,0,1,1,1,0,1
+nfsr_20_in(0-7-13-17-xor-xor-xor),0.6991,0.4975,6,0,1,0,0,0,0,1,1,1,0,0,0,0,1,1
+nfsr_20_in(7-13-and-9-17-and-0-xor-xor),0.0001,1.0000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+nfsr_25_in(0-8-9-10-11-19-20-21-23-xor-xor-xor-xor-xor-xor-xor-xor-6-21-and-xor-10-14-and-xor-12-20-and-xor-19-20-and-xor-4-18-21-and-and-xor-11-18-22-and-and-xor-1-5-7-23-and-and-and-xor),0.0330,0.9938,5,0,0,0,0,1,0,1,0,1,0,0,0,0,1,1
