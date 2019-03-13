@@ -56,13 +56,14 @@ def log_test_run(model_evaluation, nist_results):
     f = open("results.csv", "a+")
     nistresultstr = ""
     success_count = 0
-    for nist_result in nist_results:
-        (_, __, success) = nist_result
-        if success:
-            success_count += 1
-            nistresultstr += ",1"
-        else:
-            nistresultstr += ",0"
+    if nist_results != 'NULL':
+        for nist_result in nist_results:
+            (_, __, success) = nist_result
+            if success:
+                success_count += 1
+                nistresultstr += ",1"
+            else:
+                nistresultstr += ",0"
     logstr = f'\n{str(lfsr)},{loss},{acc},{success_count}{nistresultstr}'
     f.write(logstr)
     f.close()
@@ -70,9 +71,10 @@ def log_test_run(model_evaluation, nist_results):
 
 def run_test_round(fsr):
     sequence_path = generate_pr_sequence(lfsr, 2000000)
+    sequence_path = f'./binary_sequences/{str(lfsr)}.bin'
     evaluation = gen_dset_train_model(sequence_path, str(lfsr))
     nist_results = test_sequence(sequence_path)
-    log_test_run(evaluation, nist_results)
+    log_test_run(evaluation, 'NULL')
 
 
 if __name__ == '__main__':
