@@ -22,14 +22,14 @@ def gen_dset_train_model(sequence_path, dset_name):
         generate_dataset(
             random_raw_path=f'./binary_sequences/r.bin',
             pseudorandom_raw_path=sequence_path,
-            out_path=f'./datasets/{lfsr}.h5',
+            out_path=f'./datasets/{dset_name}.h5',
             num_bits=input_size,
             dataset_len=dataset_len), 0.25)
     (x_train, y_train) = train_data
     (x_test, y_test) = validation_data
     # generate network types
     (model, _) = ann_models.get_fully_connected_model(
-        input_shape=x_train.shape[1:], data_name=str(lfsr))
+        input_shape=x_train.shape[1:], data_name=dset_name)
 
     # compile the model
     model.compile(
@@ -45,12 +45,12 @@ def gen_dset_train_model(sequence_path, dset_name):
         validation_data=validation_data,
         epochs=10,
         batch_size=256,
-        callbacks=[TensorBoard(log_dir=f'tensorboard_logs/{str(lfsr)}')],
+        callbacks=[TensorBoard(log_dir=f'tensorboard_logs/{dset_name}')],
     )
     return model.evaluate(x_test, y_test, 100)
 
 
-def log_test_run(model_evaluation, nist_results):
+def log_test_run(model_evaluation, nist_results, fsr_name):
     loss = round_float(model_evaluation[0])
     acc = round_float(model_evaluation[1])
     f = open("results.csv", "a+")
@@ -64,7 +64,7 @@ def log_test_run(model_evaluation, nist_results):
                 nistresultstr += ",1"
             else:
                 nistresultstr += ",0"
-    logstr = f'\n{str(lfsr)},{loss},{acc},{success_count}{nistresultstr}'
+    logstr = f'\n{fsr_name},{loss},{acc},{success_count}{nistresultstr}'
     f.write(logstr)
     f.close()
 
@@ -74,7 +74,7 @@ def run_test_round(fsr):
     # sequence_path = f'./binary_sequences/{str(fsr)}.bin'
     evaluation = gen_dset_train_model(sequence_path, str(fsr))
     nist_results = test_sequence(sequence_path)
-    log_test_run(evaluation, nist_results)
+    log_test_run(evaluation, nist_results, str(fsr))
 
 
 if __name__ == '__main__':
