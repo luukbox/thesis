@@ -81,21 +81,21 @@ if __name__ == '__main__':
 
     nfsrs = [
         NLFSR(initstate="random", size=16, infunc=FSRFunction(
-            [0, 7, 8, 10, 13, "+", "+", "+", "+"])),
+            [0, 7, 8, 10, 13, "+", "+", "+", "+"]), initcycles=2**9),
         NLFSR(initstate="random", size=16, infunc=FSRFunction(
-            [0, 7, "+", 8, 10, "+", 13, "+", "+"])),
+            [0, 7, "+", 8, 10, "+", 13, "+", "+"]), initcycles=2**9),
         NLFSR(initstate="random", size=20, infunc=FSRFunction(
-            [0, 7, 8, 10, 13, "+", "+", "+", "+"])),
+            [0, 7, 8, 10, 13, "+", "+", "+", "+"]), initcycles=2**9),
         NLFSR(initstate="random", size=20, infunc=FSRFunction(
-            [0, 7, "+", 8, 10, "+", 13, "+", "+"])),
+            [0, 7, "+", 8, 10, "+", 13, "+", "+"]), initcycles=2**9),
         NLFSR(initstate="random", size=20, infunc=FSRFunction(
-            [0, 7, "*", 8, 10, "*", 0, "+", "+"])),
+            [0, 7, "*", 8, 10, "*", 0, "+", "+"]), initcycles=2**9),
         # source: http://www5.rz.rub.de:8032/imperia/md/content/wolf/szmidt_asp.pdf p. 22
         NLFSR(initstate="random", size=25, infunc=FSRFunction(
             [0, 8, 9, 10, 11, 19, 20, 21, 23, "+", "+", "+", "+",
              "+", "+", "+", "+", 6, 21, "*", "+", 10, 14, "*", "+",
              12, 20, "*", "+", 19, 20, "*", "+", 4, 18, 21, "*", "*", "+",
-             11, 18, 22, "*", "*", "+", 1, 5, 7, 23, "*", "*", "*", "+"]))
+             11, 18, 22, "*", "*", "+", 1, 5, 7, 23, "*", "*", "*", "+"]), initcycles=2**9)
     ]
 
     # define the length of one training data block (the input size of the ANN)
