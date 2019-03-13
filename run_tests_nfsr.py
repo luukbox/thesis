@@ -2,7 +2,7 @@ from decimal import Decimal, ROUND_UP
 from datetime import datetime
 from tensorflow.keras.callbacks import TensorBoard
 import numpy as np
-from pyfsr import LFSR, FSRFunction
+from pyfsr import NLFSR, FSRFunction
 from sp800_22_tests import test_sequence
 from generate_source_files import generate_pr_sequence
 from utils import generate_dataset, load_dataset
@@ -70,41 +70,32 @@ def log_test_run(model_evaluation, nist_results):
 
 
 def run_test_round(fsr):
-    sequence_path = generate_pr_sequence(lfsr, 2000000)
-    sequence_path = f'./binary_sequences/{str(lfsr)}.bin'
-    evaluation = gen_dset_train_model(sequence_path, str(lfsr))
+    sequence_path = generate_pr_sequence(fsr, 2000000)
+    # sequence_path = f'./binary_sequences/{str(fsr)}.bin'
+    evaluation = gen_dset_train_model(sequence_path, str(fsr))
     nist_results = test_sequence(sequence_path)
-    log_test_run(evaluation, 'NULL')
+    log_test_run(evaluation, nist_results)
 
 
 if __name__ == '__main__':
-    # the primitive polys we want to test
-    primitive_polys = [
-        [15, 14],
-        [16, 15, 13, 4],
-        [17, 14],
-        [18, 11],
-        [19, 18, 17, 14],
-        [20, 17],
-        [21, 19],
-        [22, 21],
-        [23, 18],
-        [24, 23, 22, 17]
-    ]
 
-    # what happens when different out functions are applied to polys with interesting results?
-    outfunc_polys = [
-        [23, 18],
-        [24, 23, 22, 17]
-    ]
-
-    # the outfunctions we want to apply to the polys in question
-    outfuncs = [
-        FSRFunction([22, 17, "+", 9, "+", 0, "+"]),
-        FSRFunction([17, 9, "*", 0, "+"]),
-        FSRFunction([22, 11, 9, 3, 0, "+", "+", "+", "+"]),
-        FSRFunction([22, 0, "+"]),
-        FSRFunction([22, 0, "*"])
+    nfsrs = [
+        NLFSR(initstate="random", size=16, infunc=FSRFunction(
+            [0, 7, 8, 10, 13, "+", "+", "+", "+"])),
+        NLFSR(initstate="random", size=16, infunc=FSRFunction(
+            [0, 7, "+", 8, 10, "+", 13, "+", "+"])),
+        NLFSR(initstate="random", size=20, infunc=FSRFunction(
+            [0, 7, 8, 10, 13, "+", "+", "+", "+"])),
+        NLFSR(initstate="random", size=20, infunc=FSRFunction(
+            [0, 7, "+", 8, 10, "+", 13, "+", "+"])),
+        NLFSR(initstate="random", size=20, infunc=FSRFunction(
+            [0, 7, "*", 8, 10, "*", 0, "+", "+"])),
+        # source: http://www5.rz.rub.de:8032/imperia/md/content/wolf/szmidt_asp.pdf p. 22
+        NLFSR(initstate="random", size=25, infunc=FSRFunction(
+            [0, 8, 9, 10, 11, 19, 20, 21, 23, "+", "+", "+", "+",
+             "+", "+", "+", "+", 6, 21, "*", "+", 10, 14, "*", "+",
+             12, 20, "*", "+", 19, 20, "*", "+", 4, 18, 21, "*", "*", "+",
+             11, 18, 22, "*", "*", "+", 1, 5, 7, 23, "*", "*", "*", "+"]))
     ]
 
     # define the length of one training data block (the input size of the ANN)
@@ -114,14 +105,5 @@ if __name__ == '__main__':
     # dataset_len * input_size can't be larger than the sum of the binary sequences length
     dataset_len = 4000000 / input_size
 
-    for poly in primitive_polys:
-        for feedback in ("external", "internal"):
-            if poly in outfunc_polys:
-                for outfunc in outfuncs:
-                    lfsr = LFSR(poly=poly, initstate="random", feedback=feedback,
-                                initcycles=2**9, outfunc=outfunc)
-                    run_test_round(lfsr)
-            else:
-                lfsr = LFSR(poly=poly, initstate="random", feedback=feedback,
-                            initcycles=2**9)
-                run_test_round(lfsr)
+    for nfsr in nfsrs:
+        run_test_round(nfsr)
