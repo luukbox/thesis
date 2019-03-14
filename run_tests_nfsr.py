@@ -17,7 +17,7 @@ def round_float(flt):
     return Decimal(str(flt)).quantize(Decimal('.0001'), rounding=ROUND_UP)
 
 
-def gen_dset_train_model(sequence_path, dset_name):
+def gen_dset_train_model(sequence_path, dset_name, dataset_len):
     train_data, validation_data = load_dataset(
         generate_dataset(
             random_raw_path=f'./binary_sequences/r.bin',
@@ -69,10 +69,10 @@ def log_test_run(model_evaluation, nist_results, fsr_name):
     f.close()
 
 
-def run_test_round(fsr):
+def run_test_round(fsr, dataset_len):
     sequence_path = generate_pr_sequence(fsr, 2000000)
     # sequence_path = f'./binary_sequences/{str(fsr)}.bin'
-    evaluation = gen_dset_train_model(sequence_path, str(fsr))
+    evaluation = gen_dset_train_model(sequence_path, str(fsr), dataset_len)
     nist_results = test_sequence(sequence_path)
     log_test_run(evaluation, nist_results, str(fsr))
 
@@ -108,4 +108,4 @@ if __name__ == '__main__':
     dataset_len = 4000000 / input_size
 
     for nfsr in nfsrs:
-        run_test_round(nfsr)
+        run_test_round(nfsr, dataset_len)
