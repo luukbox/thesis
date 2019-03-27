@@ -25,6 +25,8 @@ def generate_dataset(random_raw_path, pseudorandom_raw_path, out_path, num_bits,
     if len(random_arr) < num_bits * dataset_len_per_type:
         raise Exception("The random source file is not long enough")
     if len(pseudorandom_arr) < num_bits * dataset_len_per_type:
+        print("len pr:", len(pseudorandom_arr))
+        print("should be len:", num_bits * dataset_len)
         raise Exception("The pseudo-random source file is not long enough")
 
     random_arr = random_arr[:int(num_bits * dataset_len_per_type)]

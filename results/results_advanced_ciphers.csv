@@ -1,0 +1,10 @@
+GENERATOR;TEST-LOSS;TEST-ACCURACY;# OUT OF 15 NIST TESTS PASSED;monobit;frequency_within_block;runs;longest_run_ones_in_a_block;binary_matrix_rank;dft;non_overlapping_template_matching;overlapping_template_matching;maurers_universal;linear_complexity;serial;approximate_entropy;cumulative_sums;random_excursion;random_excursion_variant
+simple_e0_v1;0.6944;0.5145;8;0;0;0;1;1;0;1;1;1;1;0;0;0;1;1
+e0;0.6952;0.5104;7;0;0;0;1;1;1;1;0;1;1;0;0;0;1;0
+simple_a51_v1;0.6948;0.4998;14;1;1;1;1;1;0;1;1;1;1;1;1;1;1;1
+simple_a51_v2;0.0038;0.9996;3;0;0;0;0;0;0;1;0;1;0;0;0;0;0;1
+simple_a51_v3;0.2207;0.9374;7;0;1;0;0;1;0;1;0;1;1;0;0;0;1;1
+simple_a51_v4;0.6972;0.4985;8;0;0;0;1;1;0;1;1;1;1;0;0;0;1;1
+a51;0.6937;0.5017;14;1;1;1;1;0;1;1;1;1;1;1;1;1;1;1
+simple_grain_v1;0.6950;0.4993;9;0;1;0;1;1;0;1;1;1;1;0;0;0;1;1
+simple_grain_v2;0.5196;0.7372;7;0;1;0;0;1;0;1;0;1;1;0;0;0;1;1

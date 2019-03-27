@@ -6,7 +6,7 @@ from tqdm import tqdm
 def simple_grain_sequence_v1(length):
     lfsr = LFSR(poly=[18, 11], initstate="random")
     gx = FSRFunction([
-        3, 12, "+", 11, 15, "*", "+"
+        0, 12, "+", 11, 15, "*", "+"
     ])
     nfsr = NLFSR(initstate="random", size=18, infunc=gx)
     hx = FSRFunction([0, 2, "+", 1, 2, "*", "+"])

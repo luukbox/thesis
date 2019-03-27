@@ -18,14 +18,14 @@ def round_float(flt):
     return Decimal(str(flt)).quantize(Decimal('.0001'), rounding=ROUND_UP)
 
 
-def gen_dset_train_model(sequence_path, dset_name, dataset_len):
+def gen_dset_train_model(sequence_path, dset_name, dataset_len, input_size):
     train_data, validation_data = load_dataset(
         generate_dataset(
             random_raw_path=f'./binary_sequences/r.bin',
             pseudorandom_raw_path=sequence_path,
             out_path=f'./datasets/{dset_name}.h5',
             num_bits=input_size,
-            dataset_len=dataset_len), 0.25)
+            dataset_len=dataset_len), 0.2)
     (x_train, y_train) = train_data
     (x_test, y_test) = validation_data
     # generate network types
@@ -45,7 +45,7 @@ def gen_dset_train_model(sequence_path, dset_name, dataset_len):
         y=y_train,
         validation_data=validation_data,
         epochs=10,
-        batch_size=256,
+        batch_size=200,
         callbacks=[TensorBoard(log_dir=f'tensorboard_logs/{dset_name}')],
     )
     return model.evaluate(x_test, y_test, 100)
@@ -70,15 +70,25 @@ def log_test_run(model_evaluation, nist_results, fsr_name):
     f.close()
 
 
-def run_test_round(sequence, dataset_len, sequence_name):
-    sequence_path = f'./binary_sequences/{sequence_name}.bin'
-    save_sequence_as_binary(
-        sequence, sequence_path)
-    print("Sequence saved at:", sequence_path)
-    evaluation = gen_dset_train_model(
-        sequence_path, sequence_name, dataset_len)
-    nist_results = test_sequence(sequence_path)
-    log_test_run(evaluation, nist_results, sequence_name)
+def run_test_round(sequence, dataset_len, input_size, sequence_name):
+    if sequence == "NULL":
+        sequence_path = f'./binary_sequences/{sequence_name}.bin'
+        evaluation = gen_dset_train_model(
+            sequence_path, sequence_name, dataset_len, input_size)
+        # nist_results = test_sequence(sequence_path)
+        log_test_run(evaluation, "NULL", sequence_name)
+    else:
+        if len(sequence) != (dataset_len / 2) * input_size:
+            raise Exception(
+                f'The sequence you provided is too small. Expected length: {(dataset_len/2)*input_size} actual length: {len(sequence)}')
+        sequence_path = f'./binary_sequences/{sequence_name}.bin'
+        save_sequence_as_binary(
+            sequence, sequence_path)
+        print("Sequence saved at:", sequence_path)
+        evaluation = gen_dset_train_model(
+            sequence_path, sequence_name, dataset_len, input_size)
+        # nist_results = test_sequence(sequence_path)
+        log_test_run(evaluation, "NULL", sequence_name)
 
 
 if __name__ == '__main__':
@@ -90,14 +100,26 @@ if __name__ == '__main__':
     # dataset_len * input_size can't be larger than the sum of the binary sequences length
     dataset_len = 8000000 / input_size
     from advanced_ciphers.grain import simple_grain_sequence_v1, simple_grain_sequence_v2, grain_sequence
-    from advanced_ciphers.a51 import simple_a51_sequence_v1, simple_a51_sequence_v2, a51_sequence
-    run_test_round(simple_a51_sequence_v1(4000000),
-                   dataset_len, "simple_a51_v1")
-    run_test_round(simple_a51_sequence_v2(4000000),
-                   dataset_len, "simple_a51_v2")
-    run_test_round(a51_sequence(4000000), dataset_len, "a51")
-    run_test_round(simple_grain_sequence_v1(4000000),
-                   dataset_len, "simple_grain_v1")
-    run_test_round(simple_grain_sequence_v2(4000000),
-                   dataset_len, "simple_grain_v2")
-    run_test_round(grain_sequence(4000000), dataset_len, "grain")
+    from advanced_ciphers.a51 import simple_a51_sequence_v1, simple_a51_sequence_v2, simple_a51_sequence_v3, simple_a51_sequence_v4, a51_sequence
+    from advanced_ciphers.e0 import e0_sequence, simple_e0_sequence_v1
+
+    run_test_round("NULL",  # simple_e0_sequence_v1(4000000),
+                   dataset_len, input_size, "simple_e0_v1")
+    run_test_round("NULL",  # e0_sequence(4000000),
+                   dataset_len, input_size, "e0")
+    run_test_round("NULL",  # simple_a51_sequence_v1(4000000),
+                   dataset_len, input_size, "simple_a51_v1")
+    run_test_round("NULL",  # simple_a51_sequence_v2(4000000),
+                   dataset_len, input_size, "simple_a51_v2")
+    run_test_round("NULL",  # simple_a51_sequence_v3(4000000),
+                   dataset_len, input_size, "simple_a51_v3")
+    run_test_round("NULL",  # simple_a51_sequence_v4(4000000),
+                   dataset_len,  input_size, "simple_a51_v4")
+    run_test_round("NULL",  # a51_sequence(4000000),
+                   dataset_len, input_size, "a51")
+    run_test_round("NULL",  # simple_grain_sequence_v1(4000000),
+                   dataset_len,  input_size, "simple_grain_v1")
+    run_test_round("NULL",  # simple_grain_sequence_v2(4000000),
+                   dataset_len,  input_size, "simple_grain_v2")
+    run_test_round("NULL",  # grain_sequence(4000000),
+                   dataset_len, input_size, "grain")
