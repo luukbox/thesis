@@ -1,5 +1,5 @@
 # Dataset Utils
-from random import shuffle
+from random import shuffle, randint
 import numpy as np
 import h5py
 from bitarray import bitarray
@@ -42,6 +42,7 @@ def generate_dataset(random_raw_path, pseudorandom_raw_path, out_path, num_bits,
 
     training_data = []
 
+    ''' TRUE SHUFFLE
     # add target value
     for data in pseudorandom_arr:
         training_data.append(
@@ -52,6 +53,25 @@ def generate_dataset(random_raw_path, pseudorandom_raw_path, out_path, num_bits,
 
     # shuffle the training data
     shuffle(training_data)
+    '''
+    ########## "IN ORDER" SHUFFLE ##########
+    pseudorandom_train_data = []
+    for data in pseudorandom_arr:
+        pseudorandom_train_data.append(
+            [data.tolist(), CATEGORIES.index('Pseudo-Random')])
+    random_train_data = []
+    for data in random_arr:
+        random_train_data.append([data.tolist(), CATEGORIES.index('Random')])
+    while len(pseudorandom_train_data) + len(random_train_data) > 0:
+        if randint(0, 1) == 0:
+            if len(pseudorandom_train_data) == 0:
+                continue
+            training_data.append(pseudorandom_train_data.pop(0))
+        else:
+            if len(random_train_data) == 0:
+                continue
+            training_data.append(random_train_data.pop(0))
+    ######### END IN ORDER SHUFFLE #########
 
     X = []
     y = []

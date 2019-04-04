@@ -1,1 +1,7 @@
-GENERATOR,TEST-LOSS,TEST-ACCURACY,# OUT OF 15 NIST TESTS PASSED,monobit,frequency_within_block,runs,longest_run_ones_in_a_block,binary_matrix_rank,dft,non_overlapping_template_matching,overlapping_template_matching,maurers_universal,linear_complexity,serial,approximate_entropy,cumulative_sums,random_excursion,random_excursion_variant
+GENERATOR;TEST-LOSS;TEST-ACCURACY;# OUT OF 15 NIST TESTS PASSED;monobit;frequency_within_block;runs;longest_run_ones_in_a_block;binary_matrix_rank;dft;non_overlapping_template_matching;overlapping_template_matching;maurers_universal;linear_complexity;serial;approximate_entropy;cumulative_sums;random_excursion;random_excursion_variant
+
+simple_grain_v1;0.6933;0.5039;10;1;1;0;1;1;0;1;1;1;1;0;0;1;1;0
+simple_grain_v2;0.4570;0.7819;7;0;1;0;0;1;0;1;0;1;1;0;0;0;1;1
+simple_grain_v3;0.6987;0.5397;5;0;0;0;0;0;0;1;0;1;1;0;0;0;1;1
+simple_grain_v4;0.0638;0.9786;4;0;0;0;0;1;0;1;0;1;1;0;0;0;0;0
+grain_sequence_no_mask;0.6937;0.5040;14;1;1;1;1;1;1;1;1;1;1;1;1;1;1;0
