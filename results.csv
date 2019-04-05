@@ -1,7 +1,40 @@
 GENERATOR;TEST-LOSS;TEST-ACCURACY;# OUT OF 15 NIST TESTS PASSED;monobit;frequency_within_block;runs;longest_run_ones_in_a_block;binary_matrix_rank;dft;non_overlapping_template_matching;overlapping_template_matching;maurers_universal;linear_complexity;serial;approximate_entropy;cumulative_sums;random_excursion;random_excursion_variant
 
-simple_grain_v1;0.6933;0.5039;10;1;1;0;1;1;0;1;1;1;1;0;0;1;1;0
-simple_grain_v2;0.4570;0.7819;7;0;1;0;0;1;0;1;0;1;1;0;0;0;1;1
-simple_grain_v3;0.6987;0.5397;5;0;0;0;0;0;0;1;0;1;1;0;0;0;1;1
-simple_grain_v4;0.0638;0.9786;4;0;0;0;0;1;0;1;0;1;1;0;0;0;0;0
-grain_sequence_no_mask;0.6937;0.5040;14;1;1;1;1;1;1;1;1;1;1;1;1;1;1;0
+TESTING OF LSTM NETWORK 64bit input, reshape to 16 * 4
+simple_e0_v1,0.6927,0.5134,0
+e0,0.6921,0.5257,0
+simple_a51_v1,0.6932,0.5045,0
+simple_a51_v2,0.2425,0.9839,0
+simple_a51_v3,0.6932,0.4979,0
+simple_a51_v4,0.6937,0.4794,0
+a51,0.6932,0.4913,0
+simple_grain_v1,0.6934,0.4936,0
+simple_grain_v2,0.6212,0.6373,0
+simple_grain_v3,0.6928,0.5082,0
+simple_grain_v4,0.0452,0.9823,0
+grain_sequence_no_mask,0.6932,0.4858,0
+grain,0.6932,0.5006,0
+
+TESTING OF LSTM NETWORK 128bit input, reshape to  32 * 4
+simple_e0_v1,0.6898,0.5385,0
+e0,0.6919,0.5315,0
+simple_a51_v1,0.6932,0.4937,0
+simple_a51_v2,0.0931,0.9775,0
+rc4,0.6932,0.4926,15,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+simple_a51_v3,0.6933,0.4963,0
+simple_a51_v4,0.6932,0.4978,0
+a51,0.6932,0.4984,0
+simple_grain_v1,0.6934,0.4979,0
+simple_grain_v2,0.6932,0.4991,0
+simple_grain_v3,0.6931,0.5246,0
+simple_grain_v4,0.0042,0.9982,0
+
+TESTING OF LSTM NETWORK 128bit input, reshape to  16 * 8
+
+rc4,0.6932,0.4956,0
+simple_e0_v1,0.6928,0.5187,0
+e0,0.6967,0.5294,0
+simple_a51_v1,0.6946,0.4924,0
+simple_a51_v2,0.0847,0.9947,0
+simple_a51_v3,0.6872,0.5444,0
+simple_a51_v4,0.6932,0.4946,0

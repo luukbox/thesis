@@ -37,15 +37,15 @@ def get_convolutional_model(input_shape, data_name):
     return (model, model_name)
 
 
-def create_lstm_model(input_shape, data_name):
+def get_lstm_model(input_shape, data_name):
     num_bits = input_shape[0]
     model_name = f'{num_bits}_LSTM_{data_name}_resh32x16_LSTM256_drop03_LSTM128_drop02_d64_d1'
     model = Sequential()
-    model.add(Reshape((16, 8), input_shape=input_shape))
+    model.add(Reshape((16, int(num_bits / 16)), input_shape=input_shape))
     model.add(LSTM(256, activation='relu', return_sequences=True))
-    model.add(Dropout(0.3, noise_shape=None, seed=None))
+    model.add(Dropout(0.2, noise_shape=None, seed=None))
     model.add(LSTM(128, activation='relu'))
-    model.add(Dropout(0.3, noise_shape=None, seed=None))
+    model.add(Dropout(0.2, noise_shape=None, seed=None))
     model.add(Dense(64, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
     return (model, model_name)
@@ -55,5 +55,5 @@ def get_defined_models(input_shape, data_name):
     return [
         get_fully_connected_model(input_shape, data_name),
         get_convolutional_model(input_shape, data_name),
-        create_lstm_model(input_shape, data_name)
+        get_lstm_model(input_shape, data_name)
     ]

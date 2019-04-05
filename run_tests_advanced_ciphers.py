@@ -32,8 +32,9 @@ def gen_dset_train_model(sequence_path, dset_name, dataset_len, input_size):
     # (model, _) = ann_models.get_fully_connected_model(
     #     input_shape=x_train.shape[1:], data_name=dset_name)
 
-    (model, _) = ann_models.get_convolutional_model(
+    (model, _) = ann_models.get_lstm_model(
         input_shape=x_train.shape[1:], data_name=dset_name)
+
     # compile the model
     model.compile(
         optimizer="adam",
@@ -96,38 +97,43 @@ def run_test_round(sequence, dataset_len, input_size, sequence_name):
 if __name__ == '__main__':
 
     # define the length of one training data block (the input size of the ANN)
-    input_size = 64
+    input_size = 128
 
     # the length of the dataset
     # dataset_len * input_size can't be larger than the sum of the binary sequences length
-    dataset_len = 8000000 / input_size
+    dataset_len = 3800000 / input_size
     from advanced_ciphers.grain import simple_grain_sequence_v1, simple_grain_sequence_v2, simple_grain_sequence_v3, simple_grain_sequence_v4, grain_sequence_no_mask, grain_sequence
     from advanced_ciphers.a51 import simple_a51_sequence_v1, simple_a51_sequence_v2, simple_a51_sequence_v3, simple_a51_sequence_v4, a51_sequence
     from advanced_ciphers.e0 import e0_sequence, simple_e0_sequence_v1
+    from advanced_ciphers.rc4 import rc4_sequence
 
-    # run_test_round("NULL",  # simple_e0_sequence_v1(4000000),
-    #                dataset_len, input_size, "simple_e0_v1")
-    # run_test_round("NULL",  # e0_sequence(4000000),
-    #                dataset_len, input_size, "e0")
-    # run_test_round("NULL",  # simple_a51_sequence_v1(4000000),
-    #                dataset_len, input_size, "simple_a51_v1")
-    # run_test_round("NULL",  # simple_a51_sequence_v2(4000000),
-    #                dataset_len, input_size, "simple_a51_v2")
-    # run_test_round("NULL",  # simple_a51_sequence_v3(4000000),
-    #                dataset_len, input_size, "simple_a51_v3")
-    # run_test_round("NULL",  # simple_a51_sequence_v4(4000000),
-    #                dataset_len,  input_size, "simple_a51_v4")
-    # run_test_round("NULL",  # a51_sequence(4000000),
-    #                dataset_len, input_size, "a51")
-    # run_test_round(simple_grain_sequence_v1(5000),
-    #                dataset_len,  input_size, "simple_grain_v1")
-    run_test_round("NULL",  # simple_grain_sequence_v2(4000000),
+    run_test_round("NULL",  # rc4_sequence(1900000),
+                   dataset_len, input_size, "rc4")
+    run_test_round("NULL",  # simple_e0_sequence_v1(1900000),
+                   dataset_len, input_size, "simple_e0_v1")
+    run_test_round("NULL",  # e0_sequence(1900000),
+                   dataset_len, input_size, "e0")
+    run_test_round("NULL",  # simple_a51_sequence_v1(1900000),
+                   dataset_len, input_size, "simple_a51_v1")
+    run_test_round("NULL",  # simple_a51_sequence_v2(1900000),
+                   dataset_len, input_size, "simple_a51_v2")
+    run_test_round("NULL",  # simple_a51_sequence_v3(1900000),
+                   dataset_len, input_size, "simple_a51_v3")
+    run_test_round("NULL",  # simple_a51_sequence_v4(1900000),
+                   dataset_len,  input_size, "simple_a51_v4")
+    run_test_round("NULL",  # a51_sequence(1900000),
+                   dataset_len, input_size, "a51")
+    run_test_round("NULL",  # simple_grain_sequence_v1(1900000),
+                   dataset_len,  input_size, "simple_grain_v1")
+    run_test_round("NULL",  # simple_grain_sequence_v2(1900000),
                    dataset_len,  input_size, "simple_grain_v2")
-    run_test_round(simple_grain_sequence_v3(4000000),
+    run_test_round("NULL",  # simple_grain_sequence_v3(1900000),
                    dataset_len,  input_size, "simple_grain_v3")
-    run_test_round(simple_grain_sequence_v4(4000000),
+    run_test_round("NULL",  # simple_grain_sequence_v4(1900000),
                    dataset_len,  input_size, "simple_grain_v4")
-    run_test_round(grain_sequence_no_mask(4000000),
+    """ 
+    run_test_round("NULL",  # grain_sequence_no_mask(1900000),
                    dataset_len,  input_size, "grain_sequence_no_mask")
-    # run_test_round("NULL",  # grain_sequence(4000000),
-    #                dataset_len, input_size, "grain")
+    run_test_round("NULL",  # grain_sequence(1900000),
+                   dataset_len, input_size, "grain")
+    """
