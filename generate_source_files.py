@@ -89,10 +89,6 @@ def plot_sequence_distribution(sequence):
     plt.show()
 
 
-# generate_r_sequence()
-
-# outfunc = FSRFunction([17, 14, 9, 6, 0, "+", "+", "+", "+"])
-# fsr = LFSR(poly=[18, 11], initstate='random', outfunc=outfunc, initcycles=2**9)
-# generate_pr_sequence(fsr, 1500000)
-
-# plot_sequence_distribution(sequence)
+if __name__ == "__main__":
+    generate_r_sequence()
+    # plot_sequence_distribution(sequence)

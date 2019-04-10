@@ -48,7 +48,7 @@ def gen_dset_train_model(sequence_path, dset_name, dataset_len, input_size):
         y=y_train,
         validation_data=validation_data,
         epochs=10,
-        batch_size=200,
+        batch_size=32,
         callbacks=[TensorBoard(log_dir=f'tensorboard_logs/{dset_name}')],
     )
     return model.evaluate(x_test, y_test, 100)
@@ -60,7 +60,7 @@ def log_test_run(model_evaluation, nist_results, fsr_name):
     f = open("results.csv", "a+")
     nistresultstr = ""
     success_count = 0
-    if nist_results != 'NULL':
+    if not nist_results is None:
         for nist_result in nist_results:
             (_, __, success) = nist_result
             if success:
@@ -74,12 +74,12 @@ def log_test_run(model_evaluation, nist_results, fsr_name):
 
 
 def run_test_round(sequence, dataset_len, input_size, sequence_name):
-    if sequence == "NULL":
+    if sequence is None:
         sequence_path = f'./binary_sequences/{sequence_name}.bin'
         evaluation = gen_dset_train_model(
             sequence_path, sequence_name, dataset_len, input_size)
         # nist_results = test_sequence(sequence_path)
-        log_test_run(evaluation, "NULL", sequence_name)
+        log_test_run(evaluation, None, sequence_name)
     else:
         if len(sequence) != (dataset_len / 2) * input_size:
             raise Exception(
@@ -97,43 +97,41 @@ def run_test_round(sequence, dataset_len, input_size, sequence_name):
 if __name__ == '__main__':
 
     # define the length of one training data block (the input size of the ANN)
-    input_size = 128
-
+    input_size = 640
+    # input_size = 256
     # the length of the dataset
     # dataset_len * input_size can't be larger than the sum of the binary sequences length
-    dataset_len = 3800000 / input_size
+    dataset_len = 15000000 / input_size
     from advanced_ciphers.grain import simple_grain_sequence_v1, simple_grain_sequence_v2, simple_grain_sequence_v3, simple_grain_sequence_v4, grain_sequence_no_mask, grain_sequence
     from advanced_ciphers.a51 import simple_a51_sequence_v1, simple_a51_sequence_v2, simple_a51_sequence_v3, simple_a51_sequence_v4, a51_sequence
     from advanced_ciphers.e0 import e0_sequence, simple_e0_sequence_v1
     from advanced_ciphers.rc4 import rc4_sequence
 
-    run_test_round("NULL",  # rc4_sequence(1900000),
+    run_test_round(None,  # rc4_sequence(7500000),
                    dataset_len, input_size, "rc4")
-    run_test_round("NULL",  # simple_e0_sequence_v1(1900000),
+    run_test_round(None,  # simple_e0_sequence_v1(7500000),
                    dataset_len, input_size, "simple_e0_v1")
-    run_test_round("NULL",  # e0_sequence(1900000),
+    run_test_round(None,  # e0_sequence(7500000),
                    dataset_len, input_size, "e0")
-    run_test_round("NULL",  # simple_a51_sequence_v1(1900000),
+    run_test_round(None,  # simple_a51_sequence_v1(7500000),
                    dataset_len, input_size, "simple_a51_v1")
-    run_test_round("NULL",  # simple_a51_sequence_v2(1900000),
+    run_test_round(None,  # simple_a51_sequence_v2(7500000),
                    dataset_len, input_size, "simple_a51_v2")
-    run_test_round("NULL",  # simple_a51_sequence_v3(1900000),
+    run_test_round(None,  # simple_a51_sequence_v3(7500000),
                    dataset_len, input_size, "simple_a51_v3")
-    run_test_round("NULL",  # simple_a51_sequence_v4(1900000),
+    run_test_round(None,  # simple_a51_sequence_v4(7500000),
                    dataset_len,  input_size, "simple_a51_v4")
-    run_test_round("NULL",  # a51_sequence(1900000),
+    run_test_round(None,  # a51_sequence(7500000),
                    dataset_len, input_size, "a51")
-    run_test_round("NULL",  # simple_grain_sequence_v1(1900000),
+    run_test_round(None,  # simple_grain_sequence_v1(7500000),
                    dataset_len,  input_size, "simple_grain_v1")
-    run_test_round("NULL",  # simple_grain_sequence_v2(1900000),
+    run_test_round(None,  # simple_grain_sequence_v2(7500000),
                    dataset_len,  input_size, "simple_grain_v2")
-    run_test_round("NULL",  # simple_grain_sequence_v3(1900000),
+    run_test_round(None,  # simple_grain_sequence_v3(7500000),
                    dataset_len,  input_size, "simple_grain_v3")
-    run_test_round("NULL",  # simple_grain_sequence_v4(1900000),
+    run_test_round(None,  # simple_grain_sequence_v4(7500000),
                    dataset_len,  input_size, "simple_grain_v4")
-    """ 
-    run_test_round("NULL",  # grain_sequence_no_mask(1900000),
+    run_test_round(None,  # grain_sequence_no_mask(7500000),
                    dataset_len,  input_size, "grain_sequence_no_mask")
-    run_test_round("NULL",  # grain_sequence(1900000),
+    run_test_round(None,  # grain_sequence(7500000),
                    dataset_len, input_size, "grain")
-    """
