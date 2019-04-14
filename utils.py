@@ -19,8 +19,15 @@ def open_bin_file(path):
 def generate_dataset(random_raw_path, pseudorandom_raw_path, out_path, num_bits, dataset_len):
     print("Generating Dataset...")
     dataset_len_per_type = int(dataset_len/2)
-    random_arr = open_bin_file(random_raw_path)
-    pseudorandom_arr = open_bin_file(pseudorandom_raw_path)
+    from compress_sequence import get_compressed_normalized_seq
+    use_normalization = True
+    if use_normalization:
+        print("NORMALIZING COMPRESSED SEQUENCE!")
+    random_arr = get_compressed_normalized_seq(random_raw_path, True)
+    pseudorandom_arr = get_compressed_normalized_seq(
+        pseudorandom_raw_path, True)
+    # random_arr = open_bin_file(random_raw_path)
+    # pseudorandom_arr = open_bin_file(pseudorandom_raw_path)
 
     if len(random_arr) < num_bits * dataset_len_per_type:
         raise Exception("The random source file is not long enough")

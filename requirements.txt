@@ -23,9 +23,10 @@ mccabe==0.6.1
 mock==2.0.0
 numpy==1.16.2
 pbr==5.1.2
+Pillow==5.4.1
 protobuf==3.6.1
 pycodestyle==2.5.0
--e git://github.com/luukbox/pyfsr@130bdc9bbcfdcc8fb362e832c19dc03abd6fe53f#egg=pyfsr
+-e git://github.com/luukbox/pyfsr@e6f3a72b25c49c368b7a7ea4eee07d6f9686bf2f#egg=pyfsr
 pylint==2.3.0
 pyparsing==2.3.1
 python-dateutil==2.8.0
@@ -35,7 +36,7 @@ scipy==1.2.1
 six==1.12.0
 sklearn==0.0
 smmap2==2.0.5
--e git://github.com/luukbox/sp800_22_tests@0fe7f6bee25c70b4c3c868cffaac1f05c68cd576#egg=sp800_22_tests
+-e git://github.com/luukbox/sp800_22_tests@fbf67e325840cd8a00a872725e8f5cdcf6d729a7#egg=sp800_22_tests
 stevedore==1.30.1
 tensorboard==1.13.0
 tensorflow==1.13.1

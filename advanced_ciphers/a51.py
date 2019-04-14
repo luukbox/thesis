@@ -57,7 +57,7 @@ def simple_a51_sequence_v3(length):
     r3 = LFSR(poly=[9, 5], initstate="random")
     sequence = np.ones(length) * -1
 
-    for i in tqdm(range(length), ascii=True, desc="Generating Simpified A51 Sequence v2"):
+    for i in tqdm(range(length), ascii=True, desc="Generating Simpified A51 Sequence v3"):
         (b1, b2, b3) = (r1.state[5], r2.state[3], r3.state[7])
         vote = np.argmax(np.bincount([b1, b2, b3]))
         if b1 == vote:
@@ -78,7 +78,7 @@ def simple_a51_sequence_v4(length):
     r3 = LFSR(poly=[17, 14], initstate="random")
     sequence = np.ones(length) * -1
 
-    for i in tqdm(range(length), ascii=True, desc="Generating Simpified A51 Sequence v2"):
+    for i in tqdm(range(length), ascii=True, desc="Generating Simpified A51 Sequence v4"):
         (b1, b2, b3) = (r1.state[5], r2.state[3], r3.state[7])
         vote = np.argmax(np.bincount([b1, b2, b3]))
         if b1 == vote:

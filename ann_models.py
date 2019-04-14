@@ -1,6 +1,6 @@
 import tensorflow.keras as keras
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv1D, Conv2D, MaxPooling1D, MaxPooling2D, Reshape, LSTM
+from tensorflow.keras.layers import Dense, Dropout, Flatten, Conv1D, Conv2D, MaxPooling1D, MaxPooling2D, Reshape, LSTM, TimeDistributed, Activation
 from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.models import save_model, load_model
 import math
@@ -21,7 +21,6 @@ def get_fully_connected_model(input_shape, data_name):
 
 
 def get_convolutional_model(input_shape, data_name):
-    print(input_shape)
     num_bits = input_shape[0]
     dimension = int(math.sqrt(num_bits))
     model_name = f'{num_bits}_CNN_{data_name}_resh_conv1d128-16_drop03_pool1d_conv1d64-8_drop02_pool1d_flat_d1'
@@ -62,29 +61,32 @@ def get_lstm_model(input_shape, data_name):
     num_bits = input_shape[0]
     model_name = f'{num_bits}_LSTM_{data_name}_resh32x16_LSTM256_drop03_LSTM128_drop02_d64_d1'
     model = Sequential()
-    model.add(Reshape((10, int(num_bits / 10)), input_shape=input_shape))
+    model.add(Reshape((4, int(num_bits / 4)), input_shape=input_shape))
     model.add(LSTM(256, activation='relu', return_sequences=True))
-    model.add(Dropout(0.2, noise_shape=None, seed=None))
+    model.add(Dropout(0.3, noise_shape=None, seed=None))
     model.add(LSTM(128, activation='relu'))
-    model.add(Dropout(0.1, noise_shape=None, seed=None))
+    model.add(Dropout(0.2, noise_shape=None, seed=None))
     model.add(Dense(64, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
     return (model, model_name)
 
 
-def get_lstm_model_stateful(input_shape, data_name):
+def get_cnn_lstm_model(input_shape, data_name):
     '''
     Currently not working
     '''
     num_bits = input_shape[0]
-    model_name = f'{num_bits}_LSTM_{data_name}_resh32x16_LSTM256_drop03_LSTM128_drop02_d64_d1'
+    dimension = int(math.sqrt(num_bits))
+    model_name = f'{num_bits}_CNN_LSTM_{data_name}_resh_conv1d128-16_drop03_pool1d_conv1d64-8_drop02_pool1d_flat_d1'
+    cnn = Sequential()
+    cnn.add(Conv2D(128, 3, input_shape=(
+        dimension, dimension), activation="relu"))
+    cnn.add(MaxPooling2D(pool_size=(2, 2)))
+    cnn.add(Flatten())
     model = Sequential()
-    model.add(Reshape((4, int(num_bits / 4)), input_shape=input_shape))
-    model.add(LSTM(256, activation='relu', return_sequences=True,
-                   stateful=True, batch_input_shape=(200, 4, 64)))
-    model.add(Dropout(0.2, noise_shape=None, seed=None))
-    model.add(LSTM(128, activation='relu', stateful=True))
-    model.add(Dropout(0.1, noise_shape=None, seed=None))
+    model.add(Reshape((dimension, dimension, 1), input_shape=input_shape))
+    model.add(TimeDistributed(cnn))
+    model.add(LSTM(64))
     model.add(Dense(64, activation='relu'))
     model.add(Dense(1, activation='sigmoid'))
     return (model, model_name)

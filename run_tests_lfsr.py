@@ -43,8 +43,8 @@ def gen_dset_train_model(sequence_path, dset_name):
         x=x_train,
         y=y_train,
         validation_data=validation_data,
-        epochs=10,
-        batch_size=256,
+        epochs=3,
+        batch_size=32,
         callbacks=[TensorBoard(log_dir=f'tensorboard_logs/{dset_name}')],
     )
     return model.evaluate(x_test, y_test, 100)
@@ -70,24 +70,24 @@ def log_test_run(model_evaluation, nist_results, fsr_name):
 
 
 def run_test_round(fsr):
-    sequence_path = generate_pr_sequence(fsr, 2000000)
+    sequence_path = generate_pr_sequence(fsr, 7000000)
     # sequence_path = f'./binary_sequences/{str(fsr)}.bin'
     evaluation = gen_dset_train_model(sequence_path, str(fsr))
-    nist_results = test_sequence(sequence_path)
-    log_test_run(evaluation, nist_results, str(fsr))
+    # nist_results = test_sequence(sequence_path)
+    log_test_run(evaluation, "NULL", str(fsr))
 
 
 if __name__ == '__main__':
     # the primitive polys we want to test
     primitive_polys = [
-        [15, 14],
-        [16, 15, 13, 4],
-        [17, 14],
-        [18, 11],
-        [19, 18, 17, 14],
-        [20, 17],
-        [21, 19],
-        [22, 21],
+        # [15, 14],
+        # [16, 15, 13, 4],
+        # [17, 14],
+        # [18, 11],
+        # [19, 18, 17, 14],
+        # [20, 17],
+        # [21, 19],
+        # [22, 21],
         [23, 18],
         [24, 23, 22, 17]
     ]
@@ -112,10 +112,10 @@ if __name__ == '__main__':
 
     # the length of the dataset
     # dataset_len * input_size can't be larger than the sum of the binary sequences length
-    dataset_len = 4000000 / input_size
+    dataset_len = 5000000 / input_size
 
     for poly in primitive_polys:
-        for feedback in ("external", "internal"):
+        for feedback in (["external"]):  # , "internal"]):
             if poly in outfunc_polys:
                 for outfunc in outfuncs:
                     lfsr = LFSR(poly=poly, initstate="random", feedback=feedback,

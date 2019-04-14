@@ -1,5 +1,5 @@
 import numpy as np
-from pyfsr import LFSR, NLFSR, FSRFunction
+from pyfsr import LFSR, NLFSR, FSRFunction, logical_xor
 from tqdm import tqdm
 
 
@@ -15,10 +15,10 @@ def simple_grain_sequence_v1(length):
     for i in tqdm(range(length), ascii=True, desc="Generating Simplified Grain Sequence V1"):
         lfsr_outbit = lfsr.shift()
         nfsr.shift()
-        nfsr.state[0] = np.logical_xor(lfsr_outbit, nfsr.state[0])
+        nfsr.state[0] = logical_xor(lfsr_outbit, nfsr.state[0])
         outtaps = [lfsr.state[3], lfsr.state[14],
                    nfsr.state[7]]
-        sequence[i] = np.logical_xor(nfsr.state[14], hx.solve(outtaps))
+        sequence[i] = logical_xor(nfsr.state[14], hx.solve(outtaps))
 
     return "".join(str(s) for s in sequence.astype(int))
 
@@ -35,7 +35,7 @@ def simple_grain_sequence_v2(length):
     for i in tqdm(range(length), ascii=True, desc="Generating Simplified Grain Sequence V2"):
         lfsr_outbit = lfsr.shift()
         nfsr.shift()
-        nfsr.state[0] = np.logical_xor(lfsr_outbit, nfsr.state[0])
+        nfsr.state[0] = logical_xor(lfsr_outbit, nfsr.state[0])
         outtaps = [lfsr.state[2], lfsr.state[11],
                    nfsr.state[7]]
         # this time we won't mask the output of the filter function
@@ -56,12 +56,12 @@ def simple_grain_sequence_v3(length):
     for i in tqdm(range(length), ascii=True, desc="Generating Simplified Grain Sequence V3"):
         lfsr_outbit = lfsr.shift()
         nfsr.shift()
-        nfsr.state[0] = np.logical_xor(lfsr_outbit, nfsr.state[0])
+        nfsr.state[0] = logical_xor(lfsr_outbit, nfsr.state[0])
         outtaps = [lfsr.state[2], lfsr.state[11],
                    nfsr.state[7]]
 
         # identical to v2 but this time we mask the outbit
-        sequence[i] = np.logical_xor(nfsr.state[9], hx.solve(outtaps))
+        sequence[i] = logical_xor(nfsr.state[9], hx.solve(outtaps))
 
     return "".join(str(s) for s in sequence.astype(int))
 
@@ -78,7 +78,7 @@ def simple_grain_sequence_v4(length):
     for i in tqdm(range(length), ascii=True, desc="Generating Simplified Grain Sequence V4"):
         lfsr_outbit = lfsr.shift()
         nfsr.shift()
-        nfsr.state[0] = np.logical_xor(lfsr_outbit, nfsr.state[0])
+        nfsr.state[0] = logical_xor(lfsr_outbit, nfsr.state[0])
         outtaps = [lfsr.state[7], lfsr.state[14],
                    nfsr.state[5]]
         # no masking
@@ -103,7 +103,7 @@ def grain_sequence_no_mask(length):
     for i in tqdm(range(length), ascii=True, desc="Generating Grain Sequence without masking the filter function"):
         lfsr.shift()
         nfsr.shift()
-        nfsr.state[0] = np.logical_xor(lfsr.outbit, nfsr.state[0])
+        nfsr.state[0] = logical_xor(lfsr.outbit, nfsr.state[0])
         # for bi we'll choose 63, so bi+63 would result in (63+63) % 80 = 46
         outtaps = [lfsr.state[3], lfsr.state[25],
                    lfsr.state[46], lfsr.state[64], nfsr.state[46]]
@@ -129,11 +129,11 @@ def grain_sequence(length):
     for i in tqdm(range(length), ascii=True, desc="Generating Real Grain Sequence"):
         lfsr.shift()
         nfsr.shift()
-        nfsr.state[0] = np.logical_xor(lfsr.outbit, nfsr.state[0])
+        nfsr.state[0] = logical_xor(lfsr.outbit, nfsr.state[0])
         # for bi we'll choose 63, so bi+63 would result in (63+63) % 80 = 46
         outtaps = [lfsr.state[3], lfsr.state[25],
                    lfsr.state[46], lfsr.state[64], nfsr.state[46]]
         # mask the output of the filter function with bi
-        sequence[i] = np.logical_xor(nfsr.state[63], hx.solve(outtaps))
+        sequence[i] = logical_xor(nfsr.state[63], hx.solve(outtaps))
 
     return "".join(str(s) for s in sequence.astype(int))
