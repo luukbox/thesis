@@ -1,5 +1,5 @@
 import numpy as np
-from pyfsr import LFSR, NLFSR, FSRFunction
+from pyfsr import LFSR, NLFSR, FSRFunction, logical_xor
 from tqdm import tqdm
 '''
 source: https://www.esat.kuleuven.be/cosic/publications/article-22.pdf
@@ -10,7 +10,7 @@ def T2(x):
     as_bin = [int(b) for b in bin(x)[2:]]
     if len(as_bin) == 1:
         as_bin.append(0)
-    return [as_bin[1], np.logical_xor(as_bin[0], as_bin[1])]
+    return [as_bin[1], logical_xor(as_bin[0], as_bin[1], True)]
 
 
 def simple_e0_sequence_v1(length):
@@ -38,9 +38,9 @@ def simple_e0_sequence_v1(length):
         ct = ct1
         ct1 = np.logical_xor([int(b) for b in bin(st1)[2:]], ct)
         ct1 = np.logical_xor(ct1, T2(ct_1))
-        cipherbit = np.logical_xor(l1.outbit, l2.outbit)
-        cipherbit = np.logical_xor(cipherbit, l3.outbit)
-        cipherbit = np.logical_xor(cipherbit, l4.outbit)
+        cipherbit = logical_xor(l1.outbit, l2.outbit, True)
+        cipherbit = logical_xor(cipherbit, l3.outbit, True)
+        cipherbit = logical_xor(cipherbit, l4.outbit, True)
         cipherbit = np.logical_xor(cipherbit, ct1)
         sequence[i] = cipherbit[0]
 
@@ -72,10 +72,14 @@ def e0_sequence(length):
         ct = ct1
         ct1 = np.logical_xor([int(b) for b in bin(st1)[2:]], ct)
         ct1 = np.logical_xor(ct1, T2(ct_1))
-        cipherbit = np.logical_xor(l1.outbit, l2.outbit)
-        cipherbit = np.logical_xor(cipherbit, l3.outbit)
-        cipherbit = np.logical_xor(cipherbit, l4.outbit)
+        cipherbit = logical_xor(l1.outbit, l2.outbit, True)
+        cipherbit = logical_xor(cipherbit, l3.outbit, True)
+        cipherbit = logical_xor(cipherbit, l4.outbit, True)
         cipherbit = np.logical_xor(cipherbit, ct1)
         sequence[i] = cipherbit[0]
 
     return "".join(str(s) for s in sequence.astype(int))
+
+
+if __name__ == "__main__":
+    print(e0_sequence(1000))

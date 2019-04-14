@@ -23,9 +23,12 @@ def generate_dataset(random_raw_path, pseudorandom_raw_path, out_path, num_bits,
     use_normalization = True
     if use_normalization:
         print("NORMALIZING COMPRESSED SEQUENCE!")
-    random_arr = get_compressed_normalized_seq(random_raw_path, True)
+    if not use_normalization:
+        print("NOT NORMALIZING COMPRESSED SEQUENCE!")
+    random_arr = get_compressed_normalized_seq(
+        random_raw_path, use_normalization)
     pseudorandom_arr = get_compressed_normalized_seq(
-        pseudorandom_raw_path, True)
+        pseudorandom_raw_path, use_normalization)
     # random_arr = open_bin_file(random_raw_path)
     # pseudorandom_arr = open_bin_file(pseudorandom_raw_path)
 
